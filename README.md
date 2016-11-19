@@ -25,7 +25,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: all
       roles:
-         - { role: scorpionresponse.pip }
+         - { role: ScorpionResponse.pip }
 
 License
 -------
