@@ -2,13 +2,26 @@ galaxy_info:
   author: Paul Moss (scorpionresponse)
   description: Install Pip
   license: BSD
-  min_ansible_version: 1.2
+  min_ansible_version: 1.9
 
   platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Debian
+    versions:
+    - all
+  - name: Fedora
+    versions:
+    - all
   - name: Ubuntu
     versions:
-    - xenial
+    - all
 
-  galaxy_tags: []
+  galaxy_tags:
+    - development
+    - python
+    - system
 
 dependencies: []
