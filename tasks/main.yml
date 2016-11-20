@@ -3,3 +3,4 @@
   apt:
     pkg: python-pip
     state: present
+    update_cache: yes
