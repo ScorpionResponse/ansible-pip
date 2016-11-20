@@ -6,8 +6,12 @@
 
 - name: Install on Apt based system
   include: install-apt.yml
-  when: (ansible_os_family == 'Debian' and pip_installed.stat.exists == false)
+  when: 
+    - ansible_pkg_mgr == 'apt'
+    - pip_installed.stat.exists == false
 
 - name: Install on Yum based system
   include: install-yum.yml
-  when: (ansible_os_family == 'RedHat' and pip_installed.stat.exists == false)
+  when:
+    - ansible_pkg_mgr == 'yum'
+    - pip_installed.stat.exists == false
