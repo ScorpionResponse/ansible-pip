@@ -1,0 +1,9 @@
+---
+- name: Update Yum Cache
+  yum:
+    update_cache: yes
+
+- name: Install pip
+  yum:
+    pkg: python-pip
+    state: present
