@@ -10,13 +10,16 @@ galaxy_info:
     - 7
   - name: Debian
     versions:
-    - all
+    - jessie
   - name: Fedora
     versions:
-    - all
+    - 24
   - name: Ubuntu
     versions:
-    - all
+    - precise
+    - trusty
+    - xenial
+    - yakkety
 
   galaxy_tags:
     - development
