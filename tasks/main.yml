@@ -15,3 +15,13 @@
   when:
     - ansible_pkg_mgr == 'yum'
     - pip_installed.stat.exists == false
+
+- name: Upgrade pip with pip
+  pip:
+    name: pip
+    state: latest
+
+- name: Install virtualenv
+  pip:
+    name: virtualenv
+    state: present
