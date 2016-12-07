@@ -1,6 +1,4 @@
 ---
 - hosts: all
-  vars:
-    - python3: True
   roles:
     - role_under_test
