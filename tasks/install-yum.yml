@@ -1,6 +1,6 @@
 ---
 - name: Install pip
   yum:
-    name: python-pip
+    name: "{{ package_to_install }}"
     state: present
     update_cache: yes

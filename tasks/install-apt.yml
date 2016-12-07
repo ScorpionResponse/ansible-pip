@@ -6,5 +6,5 @@
 
 - name: Install pip
   apt:
-    pkg: python-pip
+    pkg: "{{ package_to_install }}"
     state: present

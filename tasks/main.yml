@@ -4,6 +4,16 @@
     path: /usr/bin/pip
   register: pip_installed
 
+- name: Set package for python3
+  set_fact:
+    package_to_install: "python3-pip"
+  when: python3
+
+- name: Set package for python2
+  set_fact:
+    package_to_install: "python-pip"
+  when: python3 is undefined or not python3
+
 - name: Install on Apt based system
   include: install-apt.yml
   when: 
