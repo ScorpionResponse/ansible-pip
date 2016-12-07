@@ -7,13 +7,15 @@
   set_fact:
     package_to_install: "python3-pip"
     pip_executable: "pip3"
-  when: "{{ use_python3 | bool }}"
+  when: 
+    - "{{ use_python3 | bool }}"
+    - ansible_pkg_mgr == 'apt'
 
 - name: Set package for python2
   set_fact:
     package_to_install: "python-pip"
     pip_executable: "pip2"
-  when: "not {{ use_python3 | bool }}"
+  when: "(not {{ use_python3 | bool }} or ansible_pkg_mgr == 'yum'"
 
 - name: Detect pip installation
   stat: 
