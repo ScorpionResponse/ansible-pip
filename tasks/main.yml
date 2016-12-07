@@ -13,7 +13,7 @@
   set_fact:
     package_to_install: "python-pip"
     pip_executable: "pip2"
-  when: (use_python3 is undefined or not "{{ use_python3 | bool }}")
+  when: "not {{ use_python3 | bool }}"
 
 - name: Detect pip installation
   stat: 
