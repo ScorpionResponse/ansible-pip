@@ -14,7 +14,7 @@
   set_fact:
     package_to_install: "python-pip"
     pip_executable: "pip2"
-  when: python3 is undefined or not python3
+  when: (python3 is undefined or not python3)
 
 - name: Install on Apt based system
   include: install-apt.yml
