@@ -7,11 +7,13 @@
 - name: Set package for python3
   set_fact:
     package_to_install: "python3-pip"
+    pip_executable: "pip3"
   when: python3
 
 - name: Set package for python2
   set_fact:
     package_to_install: "python-pip"
+    pip_executable: "pip2"
   when: python3 is undefined or not python3
 
 - name: Install on Apt based system
@@ -30,8 +32,10 @@
   pip:
     name: pip
     state: latest
+    executable: "{{ pip_executable }}"
 
 - name: Install virtualenv
   pip:
     name: virtualenv
     state: present
+    executable: "{{ pip_executable }}"
