@@ -1,20 +1,24 @@
 ---
-- name: Detect pip installation
-  stat: 
-    path: /usr/bin/pip
-  register: pip_installed
+- name: Show use_python3 variable
+  debug:
+    msg: "Use Python3: {{ use_python3 }}"
 
 - name: Set package for python3
   set_fact:
     package_to_install: "python3-pip"
     pip_executable: "pip3"
-  when: python3
+  when: "{{ use_python3 | bool }}"
 
 - name: Set package for python2
   set_fact:
     package_to_install: "python-pip"
     pip_executable: "pip2"
-  when: (python3 is undefined or not python3 or python == false)
+  when: (use_python3 is undefined or not "{{ use_python3 | bool }}")
+
+- name: Detect pip installation
+  stat: 
+    path: "/usr/bin/{{ pip_executable }}"
+  register: pip_installed
 
 - name: Install on Apt based system
   include: install-apt.yml
