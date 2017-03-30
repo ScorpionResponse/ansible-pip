@@ -60,7 +60,7 @@ script:
 
   # Test results of role
   - EXE=$([ "${use_python3}" = "True" ] && echo "pip3" || echo "pip2")
-  - echo "Using executable: ${EXE}"
+  - echo 'Using executable: ${EXE}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which ${EXE}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which pip'
 
