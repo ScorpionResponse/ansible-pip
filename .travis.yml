@@ -62,7 +62,7 @@ script:
   - EXE=$([ "${use_python3}" = "True" ] && echo "pip3" || echo "pip2")
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which ${EXE}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which pip'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /usr/bin/p*'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /usr/bin/p* || echo ""'
 
 after_success:
   # Clean up.
