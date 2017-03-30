@@ -6,27 +6,27 @@ env:
   - distro: centos7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    use_python3: True
+    use_python3: true
   - distro: debian8 
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    use_python3: True
+    use_python3: true
   - distro: ubuntu1604
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    use_python3: True
+    use_python3: true
   - distro: centos7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    use_python3: False
+    use_python3: false
   - distro: debian8 
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    use_python3: False
+    use_python3: false
   - distro: ubuntu1604
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    use_python3: False
+    use_python3: false
 
 services:
   - docker
@@ -59,7 +59,7 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Test results of role
-  - EXE=$([ "${use_python3}" = "True" ] && echo "pip3" || echo "pip2")
+  - EXE=$([ "${use_python3}" = "true" ] && echo "pip3" || echo "pip2")
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm echo "${EXE}"'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which ${EXE}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which pip2 || echo ""'
