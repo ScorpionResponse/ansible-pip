@@ -11,6 +11,7 @@
   when: 
     - "{{ use_python3 | bool }}"
     - ansible_pkg_mgr == 'apt'
+    - "not {{ only_python2 | bool }}"
 
 - name: Set YUM package for python3
   set_fact:
@@ -20,13 +21,14 @@
   when: 
     - "{{ use_python3 | bool }}"
     - ansible_pkg_mgr == 'yum'
+    - "not {{ only_python2 | bool }}"
 
 - name: Set package for python2
   set_fact:
     package_to_install: "python-pip"
     pip_executable: "pip2"
     python_executable: "python2"
-  when: "not {{ use_python3 | bool }}"
+  when: "(not {{ use_python3 | bool }} or {{ only_python2 | bool }})"
 
 - name: Detect pip installation
   stat: 
