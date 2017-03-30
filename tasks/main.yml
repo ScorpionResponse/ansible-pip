@@ -3,7 +3,7 @@
   debug:
     msg: "Use Python3: {{ use_python3 }}"
 
-- name: Set package for python3
+- name: Set APT package for python3
   set_fact:
     package_to_install: "python3-pip"
     pip_executable: "pip3"
@@ -12,12 +12,21 @@
     - "{{ use_python3 | bool }}"
     - ansible_pkg_mgr == 'apt'
 
+- name: Set YUM package for python3
+  set_fact:
+    package_to_install: "python34-pip"
+    pip_executable: "pip3"
+    python_executable: "python3"
+  when: 
+    - "{{ use_python3 | bool }}"
+    - ansible_pkg_mgr == 'yum'
+
 - name: Set package for python2
   set_fact:
     package_to_install: "python-pip"
     pip_executable: "pip2"
     python_executable: "python2"
-  when: "(not {{ use_python3 | bool }} or ansible_pkg_mgr == 'yum')"
+  when: "not {{ use_python3 | bool }}"
 
 - name: Detect pip installation
   stat: 
