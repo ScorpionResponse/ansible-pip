@@ -3,36 +3,40 @@
   debug:
     msg: "Use Python3: {{ use_python3 }}"
 
-- name: Set APT package for python3
+- name: Set defaults
+  set_fact:    
+    python_executable_path: "{{python_executable_path | default('/usr/bin/') }}"
+    
+- name: Set APT package for python3	
   set_fact:
-    package_to_install: "python3-pip"
-    pip_executable: "pip3"
-    python_executable: "python3"
-  when: 
-    - "use_python3|bool"
-    - ansible_pkg_mgr == 'apt'
-    - "not only_python2|bool"
+    package_to_install: "{{package_to_install | default('python3-pip')}}"
+    pip_executable: "{{pip_executable | default('pip3')}}"
+    python_executable: "{{python_executable | default('python3')}}"
+  when: 	
+    - "use_python3|bool"	
+    - ansible_pkg_mgr == 'apt'	
+    - "not only_python2|bool"	
 
-- name: Set YUM package for python3
-  set_fact:
-    package_to_install: "python34-pip"
-    pip_executable: "pip3"
-    python_executable: "python3"
-  when: 
-    - "use_python3|bool"
-    - ansible_pkg_mgr == 'yum'
+- name: Set YUM package for python3	
+  set_fact:	
+    package_to_install: "{{package_to_install | default('python3-pip')}}"
+    pip_executable: "{{pip_executable | default('pip3')}}"
+    python_executable: "{{python_executable | default('python3')}}"
+  when: 	
+    - "use_python3|bool"	
+    - ansible_pkg_mgr == 'yum'	
     - "not only_python2|bool"
-
+    
 - name: Set package for python2
   set_fact:
-    package_to_install: "python-pip"
-    pip_executable: "pip2"
-    python_executable: "python2"
+    package_to_install: "{{package_to_install | default('python-pip')}}"
+    pip_executable: "{{pip_executable | default('pip2')}}"
+    python_executable: "{{python_executable | default('python2')}}"    
   when: "(not use_python3|bool or only_python2|bool)"
 
 - name: Detect pip installation
   stat: 
-    path: "/usr/bin/{{ pip_executable }}"
+    path: "{{python_executable_path}}{{ pip_executable }}"
   register: pip_installed
 
 - name: Install on Apt based system
@@ -51,10 +55,10 @@
   pip:
     name: pip
     state: latest
-    executable: "{{ pip_executable }}"
+    executable: "{{python_executable_path}}{{ pip_executable }}"
 
 - name: Install virtualenv
   pip:
     name: virtualenv
     state: present
-    executable: "{{ pip_executable }}"
+    executable: "{{python_executable_path}}{{ pip_executable }}"
