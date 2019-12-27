@@ -6,7 +6,7 @@
 - 
   name: "Set defaults"
   set_fact:     
-    pip_executable_path: "{{python_executable_path | default('/usr/bin/') }}"
+    pip_executable_path: "{{pip_executable_path | default('/usr/bin/') }}"
 - 
   name: "Set APT package for python3"
   set_fact: 
