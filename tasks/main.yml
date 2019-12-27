@@ -15,7 +15,7 @@
 
 - name: Set YUM package for python3
   set_fact:
-    package_to_install: "python34-pip"
+    package_to_install: "python3-pip"
     pip_executable: "pip3"
     python_executable: "python3"
   when: 
