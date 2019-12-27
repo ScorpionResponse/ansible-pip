@@ -1,64 +1,65 @@
----
-- name: Show use_python3 variable
-  debug:
+--- 
+- 
+  debug: 
     msg: "Use Python3: {{ use_python3 }}"
-
-- name: Set defaults
-  set_fact:    
+  name: "Show use_python3 variable"
+- 
+  name: "Set defaults"
+  set_fact: 
     python_executable_path: "{{python_executable_path | default('/usr/bin/') }}"
-    
-- name: Set APT package for python3	
-  set_fact:
+- 
+  name: "Set APT package for python3"
+  set_fact: 
     package_to_install: "{{package_to_install | default('python3-pip')}}"
     pip_executable: "{{pip_executable | default('pip3')}}"
     python_executable: "{{python_executable | default('python3')}}"
-  when: 	
-    - "use_python3|bool"	
-    - ansible_pkg_mgr == 'apt'	
-    - "not only_python2|bool"	
-
-- name: Set YUM package for python3	
-  set_fact:	
-    package_to_install: "{{package_to_install | default('python3-pip')}}"
-    pip_executable: "{{pip_executable | default('pip3')}}"
-    python_executable: "{{python_executable | default('python3')}}"
-  when: 	
-    - "use_python3|bool"	
-    - ansible_pkg_mgr == 'yum'	
+  when: 
+    - use_python3|bool
+    - "ansible_pkg_mgr == 'apt'"
     - "not only_python2|bool"
-    
-- name: Set package for python2
-  set_fact:
+- 
+  name: "Set YUM package for python3"
+  set_fact: 
+    package_to_install: "{{package_to_install | default('python3-pip')}}"
+    pip_executable: "{{pip_executable | default('pip3')}}"
+    python_executable: "{{python_executable | default('python3')}}"
+  when: 
+    - use_python3|bool
+    - "ansible_pkg_mgr == 'yum'"
+    - "not only_python2|bool"
+- 
+  name: "Set package for python2"
+  set_fact: 
     package_to_install: "{{package_to_install | default('python-pip')}}"
     pip_executable: "{{pip_executable | default('pip2')}}"
-    python_executable: "{{python_executable | default('python2')}}"    
+    python_executable: "{{python_executable | default('python2')}}"
   when: "(not use_python3|bool or only_python2|bool)"
-
-- name: Detect pip installation
+- 
+  name: "Detect pip installation"
+  register: pip_installed
   stat: 
     path: "{{python_executable_path}}{{ pip_executable }}"
-  register: pip_installed
-
-- name: Install on Apt based system
+- 
   include: install-apt.yml
+  name: "Install on Apt based system"
   when: 
-    - ansible_pkg_mgr == 'apt'
-    - pip_installed.stat.exists == false
-
-- name: Install on Yum based system
+    - "ansible_pkg_mgr == 'apt'"
+    - "pip_installed.stat.exists == false"
+- 
   include: install-yum.yml
-  when:
-    - ansible_pkg_mgr == 'yum'
-    - pip_installed.stat.exists == false
-
-- name: Upgrade pip with pip
-  pip:
+  name: "Install on Yum based system"
+  when: 
+    - "ansible_pkg_mgr == 'yum'"
+    - "pip_installed.stat.exists == false"
+- 
+  name: "Upgrade pip with pip"
+  pip: 
+    executable: "{{python_executable_path}}{{ pip_executable }}"
     name: pip
     state: latest
+- 
+  name: "Install virtualenv"
+  pip: 
     executable: "{{python_executable_path}}{{ pip_executable }}"
-
-- name: Install virtualenv
-  pip:
     name: virtualenv
     state: present
-    executable: "{{python_executable_path}}{{ pip_executable }}"
