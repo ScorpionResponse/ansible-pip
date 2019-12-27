@@ -5,8 +5,8 @@
   name: "Show use_python3 variable"
 - 
   name: "Set defaults"
-  set_fact: 
-    python_executable_path: "{{python_executable_path | default('/usr/bin/') }}"
+  set_fact:     
+    pip_executable_path: "{{python_executable_path | default('/usr/bin/') }}"
 - 
   name: "Set APT package for python3"
   set_fact: 
@@ -38,7 +38,7 @@
   name: "Detect pip installation"
   register: pip_installed
   stat: 
-    path: "{{python_executable_path}}{{ pip_executable }}"
+    path: "{{pip_executable_path}}{{ pip_executable }}"
 - 
   include: install-apt.yml
   name: "Install on Apt based system"
@@ -54,12 +54,12 @@
 - 
   name: "Upgrade pip with pip"
   pip: 
-    executable: "{{python_executable_path}}{{ pip_executable }}"
+    executable: "{{pip_executable_path}}{{ pip_executable }}"
     name: pip
     state: latest
 - 
   name: "Install virtualenv"
   pip: 
-    executable: "{{python_executable_path}}{{ pip_executable }}"
+    executable: "{{pip_executable_path}}{{ pip_executable }}"
     name: virtualenv
     state: present
